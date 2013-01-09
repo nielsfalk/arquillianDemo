@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title>Arquillian Demo</title>
+</h:head>
+<h:body>
+    <h2>New Post</h2>
+    <h:form id="newForm">
+        <p>Name:
+            <h:inputText value="#{newPost.name}" id="author"/>
+        </p>
+        <p>Post:
+            <h:inputText value="#{newPost.content}" id="content"/>
+        </p>
+        <h:commandButton id="save" action="#{microPostModel.save}" value="save"/>
+    </h:form>
+
+    <h2>Existing Posts</h2>
+    <h:panelGroup rendered="#{empty posts}">
+        <em>Nothing posted yet</em>
+    </h:panelGroup>
+    <h:dataTable var="post" value="#{posts}"
+                 rendered="#{not empty posts}">
+        <h:column>
+            <f:facet name="header">Id</f:facet>
+            #{post.id}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Name</f:facet>
+            #{post.name}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Content</f:facet>
+            #{post.content}
+        </h:column>
+    </h:dataTable>
+</h:body>
+</html>
+
