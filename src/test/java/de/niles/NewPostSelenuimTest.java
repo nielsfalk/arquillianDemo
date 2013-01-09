@@ -1,6 +1,9 @@
+package de.niles;
+
 import com.thoughtworks.selenium.DefaultSelenium;
 import de.niles.MicroPost;
 import de.niles.MicroPostModel;
+import de.niles.MicroPostRepository;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
@@ -24,7 +27,7 @@ public class NewPostSelenuimTest {
     @Deployment(testable = false)
     public static WebArchive createDeployment() {
         return ShrinkWrap.create(WebArchive.class, "test.war")
-                .addClasses(MicroPost.class, MicroPostModel.class)
+                .addClasses(MicroPost.class, MicroPostModel.class, MicroPostRepository.class)
                 .addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 .setWebXML(new File("src/main/webapp/WEB-INF/web.xml"))

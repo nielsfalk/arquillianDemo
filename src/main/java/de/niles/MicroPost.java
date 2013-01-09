@@ -16,22 +16,30 @@ public class MicroPost {
     @NotNull
     @Size(min = 1, max = 25)
     @Pattern(regexp = "[A-Za-z]*", message = "only letters allowed")
-    private String name;
+    private String author;
 
     @NotNull
     @Size(min = 1, max = 140)
     private String content;
 
+    public MicroPost(String author, String content) {
+        this.author = author;
+        this.content = content;
+    }
+
+    public MicroPost() {
+    }
+
     public Long getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAuthor(String name) {
+        this.author = name;
     }
 
     public String getContent() {

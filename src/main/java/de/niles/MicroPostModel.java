@@ -1,19 +1,16 @@
 package de.niles;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.Stateful;
 import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Model
-@Stateful
 public class MicroPostModel {
-    @PersistenceContext
-    private EntityManager entityManager;
+    @Inject
+    MicroPostRepository microPostRepository;
 
     private MicroPost newMicroPost;
     private List<MicroPost> microPosts;
@@ -33,14 +30,14 @@ public class MicroPostModel {
     @Named
     public List<MicroPost> getPosts() {
         if (microPosts == null) {
-            microPosts = entityManager.createQuery("select posts from MicroPost posts order by posts.id desc ").getResultList();
+            microPosts = microPostRepository.findAll();
         }
         return microPosts;
     }
 
     public void save() {
         System.out.println("saved");
-        entityManager.persist(newMicroPost);
+        microPostRepository.add(newMicroPost);
         initNew();
         microPosts = null;
     }
