@@ -49,4 +49,21 @@ public class MicroPost {
     public void setContent(String post) {
         this.content = post;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MicroPost microPost = (MicroPost) o;
+
+        if (id != null ? !id.equals(microPost.id) : microPost.id != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 }
