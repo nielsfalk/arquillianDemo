@@ -6,8 +6,10 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@XmlRootElement
 public class MicroPost {
     @Id
     @GeneratedValue
@@ -48,6 +50,10 @@ public class MicroPost {
 
     public void setContent(String post) {
         this.content = post;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override
