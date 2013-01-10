@@ -30,21 +30,19 @@ public class MicroPostRepositoryTest {
 
     @Before
     public void bla() {
-        System.out.println("blubb");
+        microPostRepository.clear();
+        microPostRepository.add(new MicroPost("Niels", "Ich habe Hunger!"));
     }
 
     @Test
     public void addAndFindAll() {
-        microPostRepository.clear();
-        microPostRepository.add(new MicroPost("Niels", "Ich habe Hunger!"));
         assertThat(microPostRepository.findAll().size(), is(1));
     }
 
     @Test
     public void clear() {
-        microPostRepository.add(new MicroPost("Niels", "Ich habe Hunger!"));
         microPostRepository.clear();
-        assertThat(microPostRepository.findAll().size(), is(1));
+        assertThat(microPostRepository.findAll().size(), is(0));
     }
 
 }
