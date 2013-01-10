@@ -27,7 +27,7 @@ public class MicroPostRepositoryTest {
     MicroPostRepository microPostRepository;
 
     @Before
-    public void bla() {
+    public void initDB() {
         microPostRepository.clear();
         microPostRepository.add(new MicroPost("Niels", "Ich habe Hunger!"));
     }
