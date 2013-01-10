@@ -20,7 +20,7 @@ public class NewPostSelenuimTest {
     @Deployment(testable = false)
     public static WebArchive createDeployment() {
         return ShrinkWrap.create(WebArchive.class, "test.war")
-                .addClasses(MicroPost.class, MicroPostModel.class, MicroPostRepository.class)
+                .addPackage(MicroPost.class.getPackage())
                 .addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 .setWebXML(new File("src/main/webapp/WEB-INF/web.xml"))
@@ -34,7 +34,7 @@ public class NewPostSelenuimTest {
     URL deploymentUrl;
 
     @Test
-    public void should_login_with_valid_credentials() {
+    public void microPostShouldBePosted() {
         browser.open(deploymentUrl.toString().replaceFirst("/$", "") + "/");
 
         browser.type("id=newForm:author", "niels");

@@ -10,8 +10,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.ejb.EJB;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
