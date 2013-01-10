@@ -6,10 +6,14 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.PROPERTY)
 public class MicroPost {
     @Id
     @GeneratedValue
@@ -32,10 +36,12 @@ public class MicroPost {
     public MicroPost() {
     }
 
+    @XmlElement
     public Long getId() {
         return id;
     }
 
+    @XmlElement
     public String getAuthor() {
         return author;
     }
@@ -44,6 +50,7 @@ public class MicroPost {
         this.author = name;
     }
 
+    @XmlElement
     public String getContent() {
         return content;
     }
