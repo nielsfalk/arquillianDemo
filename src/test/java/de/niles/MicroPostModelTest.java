@@ -6,7 +6,6 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -44,13 +43,6 @@ public class MicroPostModelTest {
     @Inject
     List<MicroPost> posts;
 
-    @Before
-    public void initDB() {
-        repository.clear();
-        initialPost = new MicroPost("Niels", "Ich habe Hunger!");
-        repository.add(initialPost);
-    }
-
     @Test
     public void addNew() {
         newMicroPost.setAuthor("Hans");
@@ -61,8 +53,10 @@ public class MicroPostModelTest {
 
     @Test
     public void getPosts() {
-        //assertThat(posts.isEmpty(), is(not(true))); injection of posts is before initDB method
-        assertThat(model.getPosts(), hasItem(initialPost));
+        newMicroPost.setAuthor("Hans");
+        newMicroPost.setContent("Ich brauche wurst!!!");
+        model.save();
+        assertThat(model.getPosts(), hasItem(newMicroPost));
     }
 
 }
