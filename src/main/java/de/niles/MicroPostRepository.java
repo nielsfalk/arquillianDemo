@@ -12,7 +12,7 @@ public class MicroPostRepository {
     private EntityManager entityManager;
 
     public List<MicroPost> findAll() {
-        return entityManager.createQuery("select posts from MicroPost posts order by posts.id desc ").getResultList();
+        return entityManager.createNamedQuery("findAll", MicroPost.class).getResultList();
     }
 
     public void add(MicroPost newMicroPost) {
@@ -20,6 +20,6 @@ public class MicroPostRepository {
     }
 
     public void clear() {
-        entityManager.createQuery("delete from MicroPost").executeUpdate();
+        entityManager.createNamedQuery("clear").executeUpdate();
     }
 }

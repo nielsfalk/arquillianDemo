@@ -2,22 +2,26 @@ package de.niles;
 
 import com.thoughtworks.selenium.DefaultSelenium;
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.net.URL;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 @RunWith(Arquillian.class)
-public class NewPostSelenuimTest {
-    @Deployment(testable = false)
+@RunAsClient
+public class NewPostSeleniumTest {
+    @Deployment
     public static WebArchive createDeployment() {
         return ShrinkWrap.create(WebArchive.class, "test.war")
                 .addPackage(MicroPost.class.getPackage())
@@ -41,8 +45,7 @@ public class NewPostSelenuimTest {
         browser.type("id=newForm:content", "das ist ein Test");
         browser.click("id=newForm:save");
         browser.waitForPageToLoad("15000");
-
-        Assert.assertTrue("Micropost should exist",
-                browser.isElementPresent("xpath=//td[contains(text(),'das ist ein Test')]"));
+        assertThat("Micropost should exist",
+                browser.isElementPresent("xpath=//td[contains(text(),'das ist ein Test')]"), is(true));
     }
 }

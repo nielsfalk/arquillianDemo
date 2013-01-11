@@ -47,15 +47,17 @@ public class MicroPostModelTest {
     public void addNew() {
         newMicroPost.setAuthor("Hans");
         newMicroPost.setContent("Ich brauche wurst!!!");
+
         model.save();
         assertThat(repository.findAll(), hasItem(newMicroPost));
     }
 
     @Test
     public void getPosts() {
-        newMicroPost.setAuthor("Hans");
+        newMicroPost.setAuthor("Niels");
         newMicroPost.setContent("Ich brauche wurst!!!");
         model.save();
+
         assertThat(model.getPosts(), hasItem(newMicroPost));
     }
 

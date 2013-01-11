@@ -43,7 +43,8 @@ public class MicroPostResourceTest {
     @Deployment
     public static WebArchive create() {
         return ShrinkWrap.create(WebArchive.class)
-                .addClasses(DataPump.class, MicroPostRepository.class, AbstractResource.class, MicroPostResource.class, RestConfig.class, MicroPost.class)
+                .addPackage(RestConfig.class.getPackage())
+                .addClasses(DataPump.class, MicroPostRepository.class, MicroPost.class)
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml");
 
@@ -59,29 +60,20 @@ public class MicroPostResourceTest {
     @Ignore("doesn't work, but would be nice")
     public void findAllRestEasy(ClientResponse<MicroPost> response) {
         assertThat(response.getStatus(), is(OK.getStatusCode()));
-    }
-
-    @Test
-    public void findAll() {
-        ClientResponse<List<MicroPost>> response = getClientResponse("/microPost", (Class<List<MicroPost>>) (Class<?>) List.class);
-        assertThat(response.getEntity(new GenericType<List<MicroPost>>() {
-        }), hasItem(INITIAL_POST));
+        assertThat(response.getEntity(new GenericType<MicroPost>() {
+        }), is(INITIAL_POST));
     }
 
     @Test
     public void find() {
-        ClientResponse<MicroPost> response = getClientResponse("/microPost/1", MicroPost.class);
-        MicroPost entity = response.getEntity(new GenericType<MicroPost>() {
-        });
-        assertThat(entity, is(INITIAL_POST));
+        ClientResponse<MicroPost> response = request("/microPost/1", MicroPost.class);
+        assertThat(response.getEntity(new GenericType<MicroPost>() {
+        }), is(INITIAL_POST));
     }
 
     @Test
     public void findAsTextMediaTypeJSON() throws Exception {
-        ClientRequest request = new ClientRequest(deploymentUrl.toString() + RESOURCE_PREFIX + "/microPost/1");
-        request.header("Accept", APPLICATION_JSON);
-
-        ClientResponse<String> responseObj = request.get(String.class);
+        ClientResponse<String> responseObj = requeste("/microPost/1", String.class, APPLICATION_JSON);
         assertThat(responseObj.getStatus(), is(OK.getStatusCode()));
 
         String response = responseObj.getEntity().replaceAll("<\\?xml.*\\?>", "").trim();
@@ -89,10 +81,21 @@ public class MicroPostResourceTest {
         assertThat(response, is("{\"author\":\"Niels\",\"content\":\"Das ist ein Test\",\"id\":\"1\"}"));
     }
 
+    @Test
+    public void findAll() {
+        ClientResponse<List<MicroPost>> response = request("/microPost", (Class<List<MicroPost>>) (Class<?>) List.class);
+        assertThat(response.getEntity(new GenericType<List<MicroPost>>() {
+        }), hasItem(INITIAL_POST));
+    }
 
-    private <T> ClientResponse<T> getClientResponse(String path, Class<T> returnType) {
+    private <T> ClientResponse<T> request(String path, Class<T> returnType) {
+        return requeste(path, returnType, APPLICATION_XML);
+
+    }
+
+    private <T> ClientResponse<T> requeste(String path, Class<T> returnType, String mediaType) {
         ClientRequest request = new ClientRequest(deploymentUrl.toString() + RESOURCE_PREFIX + path);
-        request.header("Accept", APPLICATION_XML);
+        request.header("Accept", mediaType);
         try {
             ClientResponse<T> response = request.get(returnType);
             assertThat(response.getStatus(), is(OK.getStatusCode()));
@@ -100,7 +103,6 @@ public class MicroPostResourceTest {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @Singleton
