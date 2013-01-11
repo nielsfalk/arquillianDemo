@@ -73,7 +73,7 @@ public class MicroPostResourceTest {
 
     @Test
     public void findAsTextMediaTypeJSON() throws Exception {
-        ClientResponse<String> responseObj = requeste("/microPost/1", String.class, APPLICATION_JSON);
+        ClientResponse<String> responseObj = request("/microPost/1", String.class, APPLICATION_JSON);
         assertThat(responseObj.getStatus(), is(OK.getStatusCode()));
 
         String response = responseObj.getEntity().replaceAll("<\\?xml.*\\?>", "").trim();
@@ -83,17 +83,18 @@ public class MicroPostResourceTest {
 
     @Test
     public void findAll() {
+        @SuppressWarnings("unchecked")
         ClientResponse<List<MicroPost>> response = request("/microPost", (Class<List<MicroPost>>) (Class<?>) List.class);
         assertThat(response.getEntity(new GenericType<List<MicroPost>>() {
         }), hasItem(INITIAL_POST));
     }
 
     private <T> ClientResponse<T> request(String path, Class<T> returnType) {
-        return requeste(path, returnType, APPLICATION_XML);
+        return request(path, returnType, APPLICATION_XML);
 
     }
 
-    private <T> ClientResponse<T> requeste(String path, Class<T> returnType, String mediaType) {
+    private <T> ClientResponse<T> request(String path, Class<T> returnType, String mediaType) {
         ClientRequest request = new ClientRequest(deploymentUrl.toString() + RESOURCE_PREFIX + path);
         request.header("Accept", mediaType);
         try {

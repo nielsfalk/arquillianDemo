@@ -28,15 +28,15 @@
                  rendered="#{not empty posts}">
         <h:column>
             <f:facet name="header">Id</f:facet>
-            #{post.id}
+            <h:outputText value="#{post.id}"/>
         </h:column>
         <h:column>
             <f:facet name="header">Autor</f:facet>
-            #{post.author}
+            <h:outputText value="#{post.author}"/>
         </h:column>
         <h:column>
             <f:facet name="header">Content</f:facet>
-            #{post.content}
+            <h:outputText value="#{post.content}"/>
         </h:column>
     </h:dataTable>
 </h:body>

@@ -45,7 +45,7 @@ public class NewPostSeleniumTest {
         browser.type("id=newForm:content", "das ist ein Test");
         browser.click("id=newForm:save");
         browser.waitForPageToLoad("15000");
-        assertThat("Micropost should exist",
+        assertThat("MicroPost should exist",
                 browser.isElementPresent("xpath=//td[contains(text(),'das ist ein Test')]"), is(true));
     }
 }

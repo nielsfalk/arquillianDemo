@@ -29,7 +29,7 @@ public class MicroPostRepositoryTest {
     @Before
     public void initDB() {
         microPostRepository.clear();
-        microPostRepository.add(new MicroPost("Niels", "Ich habe Hunger!"));
+        microPostRepository.add(new MicroPost("Franz", "Ich habe Hunger!"));
     }
 
     @Test

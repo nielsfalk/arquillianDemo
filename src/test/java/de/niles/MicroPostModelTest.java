@@ -19,9 +19,6 @@ import static org.junit.internal.matchers.IsCollectionContaining.hasItem;
 
 @RunWith(Arquillian.class)
 public class MicroPostModelTest {
-
-    private MicroPost initialPost;
-
     @Deployment
     public static Archive<?> createDeployment() {
         return ShrinkWrap.create(JavaArchive.class, "test.jar")

@@ -72,9 +72,8 @@ public class MicroPost {
 
         MicroPost microPost = (MicroPost) o;
 
-        if (id != null ? !id.equals(microPost.id) : microPost.id != null) return false;
+        return !(id != null ? !id.equals(microPost.id) : microPost.id != null);
 
-        return true;
     }
 
     @Override
