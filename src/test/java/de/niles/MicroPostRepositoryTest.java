@@ -13,9 +13,12 @@ import javax.ejb.EJB;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.internal.matchers.IsCollectionContaining.hasItem;
 
 @RunWith(Arquillian.class)
 public class MicroPostRepositoryTest {
+    public static final MicroPost INITIAL_POST = new MicroPost("Franz", "Ich habe Hunger!");
+
     @Deployment
     public static Archive<?> createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
@@ -29,18 +32,25 @@ public class MicroPostRepositoryTest {
     @Before
     public void initDB() {
         microPostRepository.clear();
-        microPostRepository.add(new MicroPost("Franz", "Ich habe Hunger!"));
+        microPostRepository.add(INITIAL_POST);
     }
 
     @Test
-    public void addAndFindAll() {
-        assertThat(microPostRepository.findAll().size(), is(1));
+    public void add() {
+        MicroPost microPost = new MicroPost("Fritz", "Ich habe Hunger!");
+        microPostRepository.add(microPost);
+        assertThat(microPostRepository.findAll(), hasItem(microPost));
+    }
+
+    @Test
+    public void findAll() {
+        assertThat(microPostRepository.findAll(), hasItem(INITIAL_POST));
     }
 
     @Test
     public void clear() {
         microPostRepository.clear();
-        assertThat(microPostRepository.findAll().size(), is(0));
+        assertThat(microPostRepository.findAll().isEmpty(), is(true));
     }
 
 }
